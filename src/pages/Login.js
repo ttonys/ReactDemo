@@ -1,15 +1,34 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Card } from 'antd';
+import {Form, Input, Button, Checkbox, Card, message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {setToken} from "../utils/auth";
 import './login.css'
+import {loginApi} from "../services/auth";
 
 
 function Login(props) {
     const onFinish = (values: any) => {
-        setToken(values.username);
-        console.log('Received values of form: ', values);
-        props.history.push("/admin")
+        loginApi({
+            username: values.username,
+            password: values.password
+        }).then(res => {
+            if (res.code === "0000" && res.data.verifySuccess){
+                console.log(res)
+                message.success("登录成功").then(r => {})
+                setToken(res.data.userInfo.token);
+                props.history.push("/admin")
+            }else{
+                console.log(res)
+                message.warning("登录失败，用户名或密码错误").then(r => {})
+                message.info("用户名admin,密码123456").then(r => {})
+            }
+        }).catch(err => {
+            console.log(err)
+            message.error("网络错误").then(r => {})
+        })
+        // setToken(values.username);
+        // console.log('Received values of form: ', values);
+        // props.history.push("/admin")
     };
 
     return (

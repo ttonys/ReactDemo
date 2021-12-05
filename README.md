@@ -2,10 +2,11 @@
 #### 框架
 - Antd 4.17.2  前端组件库
 - react-router-dom 路由库
+- axios 请求库
 
 #### 功能
 
-- 登录+注销
+- 登录+注销逻辑
 - react路由的使用
 
 #### 快速启动
@@ -18,5 +19,13 @@ npm start
 #### Demo
 
 ![image-20211205211514482](./public/img/image-20211205211514482.png)
+
+## 其他
+
+#### api数据模拟
+
+```
+www.fastmock.site
+```
 
 ## 持续补充中

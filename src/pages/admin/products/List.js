@@ -1,21 +1,26 @@
-import React from 'react';
-import {Button, Card, Table, Popconfirm} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Button, Card, Table, Popconfirm, message} from "antd";
+import {listApi} from "../../../services/products";
 
-const dataSource = [{
-    id: 1,
-    name: '香皂',
-    price: 5
-}, {
-    id: 2,
-    name: '电池',
-    price: 10
-}, {
-    id: 3,
-    name: '牛奶',
-    price: 50
-}]
 
 function List(props) {
+    const [dataSource, setDataSource] = useState()
+    const [total, setTotal] = useState(0)
+
+    useEffect(() => {
+        listApi().then(res => {
+            if (res.code === "0000") {
+                setDataSource(res.data)
+                setTotal(res.total)
+            }else{
+                message.warning(res.desc).then(res => {})
+            }
+        }).catch(() => {
+            message.error("接口数据请求失败").then(res => {})
+        })
+    }, []);
+
+
     const columns = [{
         title: '序号',
         key: 'id',
@@ -56,6 +61,7 @@ function List(props) {
             <Table
                 rowKey='id'
                 columns={columns}
+                pagination={{total, defaultPageSize: 5}}
                 bordered
                 dataSource={dataSource}
             />
