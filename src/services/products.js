@@ -4,6 +4,10 @@ export function listApi(pageIndex=1, pageNumber=8){
     return get("/api/v1/admin/products", {pageIndex, pageNumber})
 }
 
+export function getOneByIdApi(id){
+    return get(`/api/v1/admin/products/${id}`)
+}
+
 export function createApi(data){
     return post("/api/v1/admin/products", data)
 }

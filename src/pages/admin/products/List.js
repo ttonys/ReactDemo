@@ -43,7 +43,7 @@ function List(props) {
         render: (text, record, index) => {
             return (
                 <div>
-                    <Button size="small" type="primary">修改</Button>
+                    <Button size="small" type="primary" onClick={() => {props.history.push(`/admin/products/edit/${record.id}`)}}>修改</Button>
                     <Popconfirm
                         title="确定删除此项？"
                         onCancel={() => {console.log('用户取消删除')}}
