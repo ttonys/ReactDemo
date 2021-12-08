@@ -4,18 +4,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {HashRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import {mainRoutes} from "./routes";
+import {Provider} from "react-redux";
+import store from "./store";
 
 ReactDOM.render(
-    <Router>
-        <Switch>
-            <Route path='/admin' render={routeProps => <App {...routeProps}/>}/>
-            {mainRoutes.map(route => {
-                return <Route key={route.path} {...route}/>
-            })}
-            <Redirect to='/admin' from='/'/>
-            <Redirect to='/404'/>
-        </Switch>
-    </Router>,
+    <Provider store={store}>
+        <Router>
+            <Switch>
+                <Route path='/admin' render={routeProps => <App {...routeProps}/>}/>
+                {mainRoutes.map(route => {
+                    return <Route key={route.path} {...route}/>
+                })}
+                <Redirect to='/admin' from='/'/>
+                <Redirect to='/404'/>
+            </Switch>
+        </Router>
+    </Provider>,
   document.getElementById('root')
 );
 

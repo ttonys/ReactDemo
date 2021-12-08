@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom'
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
 import './frame.css';
 import {removeToken} from "../../utils/auth";
+import {connect} from "react-redux";
 
 const { Header, Content, Sider } = Layout;
 const routes = adminRoutes.filter(route=>route.isShow)
@@ -48,7 +49,7 @@ function Index(props) {
                 </div>
                 <Dropdown icon={<UserOutlined />} overlay={menu}>
                     <div className="header-dropdown">
-                        <Badge dot><span>超级管理员<DownOutlined /></span></Badge>
+                        <Badge count={props.notices.count}><span>超级管理员<DownOutlined /></span></Badge>
                     </div>
                 </Dropdown>
             </Header>
@@ -95,4 +96,4 @@ function Index(props) {
     );
 }
 
-export default withRouter(Index);
+export default connect(state=>state)(withRouter(Index));

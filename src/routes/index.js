@@ -1,9 +1,9 @@
-import Login from "../pages/Login";
+import Login from "../pages/login";
 import Index from "../pages/admin/dashboard";
-import List from "../pages/admin/products/List";
-import Edit from "../pages/admin/products/Edit";
+import List from "../pages/admin/products/list";
+import Edit from "../pages/admin/products/edit";
 import Notice from "../pages/admin/notices/index"
-import PageNotFound from "../pages/PageNotFound";
+import PageNotFound from "../pages/pageNotFound";
 import {DashboardOutlined, ShoppingCartOutlined} from '@ant-design/icons';
 
 export const mainRoutes = [{

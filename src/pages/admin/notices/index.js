@@ -1,7 +1,10 @@
 import React from 'react';
+import {useState} from "react";
 import {Card, List, Avatar, Button} from "antd";
+import {connect} from "react-redux";
 
 function Index(props) {
+    const [isDisable, setIsDisable] = useState(false);
     const data = [
         {
             title: 'Ant Design Title 1',
@@ -18,16 +21,19 @@ function Index(props) {
     ];
 
     return (
-        <Card title="通知中心" extra={<Button size="small" type="text" danger>全部已读</Button>}>
+        <Card title="通知中心" extra={<Button size="small" disabled={isDisable} danger onClick={() => {
+            setIsDisable(true)
+            props.dispatch({
+                type: "READ_ALL"
+            })
+        }}>全部已读</Button>}>
             <List
                 itemLayout="horizontal"
                 dataSource={data}
                 renderItem={item => (
-                    <List.Item
-                        extra={<Button size="small">已读</Button>}
-                    >
+                    <List.Item>
                         <List.Item.Meta
-                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
                             title={<a href="https://ant.design">{item.title}</a>}
                             description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                         />
@@ -38,4 +44,4 @@ function Index(props) {
     );
 }
 
-export default Index;
+export default connect(state => state)(Index);
