@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Menu, Dropdown, message} from 'antd';
+import {Layout, Menu, Dropdown, Badge} from 'antd';
 import logo from './logo.png'
 import {adminRoutes} from "../../routes";
 import {withRouter} from 'react-router-dom'
@@ -20,7 +20,9 @@ function Index(props) {
                     removeToken()
                     props.history.push("/login")
                 }else{
-                    message.info(p.key).then(r => console.log(r))
+                    if(p.key === "notice"){
+                        props.history.push("/admin/notices")
+                    }
                 }
             }}
         >
@@ -46,7 +48,7 @@ function Index(props) {
                 </div>
                 <Dropdown icon={<UserOutlined />} overlay={menu}>
                     <div className="header-dropdown">
-                        <span>超级管理员<DownOutlined /></span>
+                        <Badge dot><span>超级管理员<DownOutlined /></span></Badge>
                     </div>
                 </Dropdown>
             </Header>

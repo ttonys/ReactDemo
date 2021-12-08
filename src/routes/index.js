@@ -2,6 +2,7 @@ import Login from "../pages/Login";
 import Index from "../pages/admin/dashboard";
 import List from "../pages/admin/products/List";
 import Edit from "../pages/admin/products/Edit";
+import Notice from "../pages/admin/notices/index"
 import PageNotFound from "../pages/PageNotFound";
 import {DashboardOutlined, ShoppingCartOutlined} from '@ant-design/icons';
 
@@ -29,5 +30,9 @@ export const adminRoutes = [{
 }, {
     path: '/admin/products/edit/:id?',
     component: Edit,
+    isShow: false
+}, {
+    path: '/admin/notices',
+    component: Notice,
     isShow: false
 }]

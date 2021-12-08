@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {Button, Card, Form, Input, message} from "antd";
+import {Button, Card, Form, Input, message, Upload} from "antd";
+import { UploadOutlined } from '@ant-design/icons';
 import {createApi, getOneByIdApi, modifyOneApi} from "../../../services/products";
 
 function Edit(props) {
@@ -45,6 +46,25 @@ function Edit(props) {
     const onFinishFailed = () => {
         message.error("请输入正确内容").then(r => console.log(r))
     };
+
+    const uploadProps = {
+        name: 'file',
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        headers: {
+            authorization: 'authorization-text',
+        },
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                message.error("请根据实际地地址配置上传路径").then(r => {})
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`).then(r => {});
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`).then(r => {});
+            }
+        },
+    };
     return (
         <Card title="商品编辑">
             <Form
@@ -61,9 +81,15 @@ function Edit(props) {
                            rules={[{required: true, message: 'Please input your username!'}]}>
                     <Input placeholder="请输入商品价格"/>
                 </Form.Item>
+                <Form.Item label="图片上传">
+                    <Upload {...uploadProps}>
+                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    </Upload>
+                </Form.Item>
                 <Form.Item>
                     <Button type='primary' htmlType="submit">保存</Button>
                 </Form.Item>
+
             </Form>
         </Card>
     );
