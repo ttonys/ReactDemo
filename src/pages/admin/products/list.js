@@ -1,32 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Card, Table, Popconfirm, message} from "antd";
-import {delOneApi, listApi, modifyOneApi} from "../../../services/products";
+import {delOneApi, modifyOneApi} from "../../../services/products";
+import {connect} from "react-redux";
+import loadProduct from "../../../store/actions/products";
 
 
 function List(props) {
-    const [dataSource, setDataSource] = useState()
-    const [total, setTotal] = useState(0)
-
+    console.log(props)
+    const {data, total} = props
     useEffect(() => {
+        props.dispatch(loadProduct())
         console.log("Hook-Effect-List-Page")
-        loadData()
     }, []);
 
-    const loadData = () => {
-        console.log("Load-Data-List-Page")
-        listApi().then(res => {
-            if (res.code === "0000") {
-                setDataSource(res.data)
-                setTotal(res.total)
-            } else {
-                message.warning(res.desc).then(res => {
-                })
-            }
-        }).catch(() => {
-            message.error("接口数据请求失败").then(res => {
-            })
-        })
-    }
 
     const columns = [{
         title: '序号',
@@ -73,8 +59,6 @@ function List(props) {
                                     })
                                     message.info("删除接口未实现，请根据实际项目补充").then(r => {
                                     })
-                                    // 触发重新渲染
-                                    loadData()
                                 })
                         }
                         }>
@@ -86,8 +70,6 @@ function List(props) {
                             })
                             message.info("修改接口未实现，请根据实际项目补充").then(r => {
                             })
-                            // 触发重新渲染
-                            loadData()
                         })
                     }}>{record.onSale ? "下架" : "上架"}</Button>
                 </div>
@@ -105,10 +87,10 @@ return (
             columns={columns}
             pagination={{total, defaultPageSize: 5}}
             bordered
-            dataSource={dataSource}
+            dataSource={data}
         />
     </Card>
 );
 }
 
-export default List;
+export default connect(state=> state.products)(List);
