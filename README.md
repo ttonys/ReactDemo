@@ -9,6 +9,7 @@
 - 登录+注销逻辑
 - 通知中心
 - 商品编辑、删除、下架
+- braft-editor 富文本编辑器
 - react-router-dom 路由
 - useState/useEffect Hook函数
 - redux/react-redux/redux-thunk 组件传参和异步
@@ -22,8 +23,9 @@ npm start
 ```
 
 #### Demo
-
+商品管理
 ![image-20211205211514482](./public/img/img-procuts.png)
+通知中心
 ![image-20211205211514482](./public/img/img-notices.png)
 
 ## 其他

@@ -1,10 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, Input, message, Upload} from "antd";
-import { UploadOutlined } from '@ant-design/icons';
+import {UploadOutlined} from '@ant-design/icons';
 import {createApi, getOneByIdApi, modifyOneApi} from "../../../services/products";
+// 引入编辑器组件
+import BraftEditor from 'braft-editor'
+// 引入编辑器样式
+import 'braft-editor/dist/index.css'
 
 function Edit(props) {
     const [form] = Form.useForm();
+    const [editState, setEditState] = useState(BraftEditor.createEditorState())
 
     useEffect(() => {
         console.log(props)
@@ -12,12 +17,15 @@ function Edit(props) {
             getOneByIdApi(props.match.params.id)
                 .then(res => {
                     form.setFieldsValue({"name": res.data.name, "price": res.data.price})
+                    setEditState(BraftEditor.createEditorState("<h1>初始化数据Test</h1>"))
                 });
         }
     }, [])
 
     const onFinish = (values: any) => {
-        if(props.match.params.id){
+        // 富文本数据-可保存到数据库
+        console.log(editState.toHTML());
+        if (props.match.params.id) {
             // 修改数据
             modifyOneApi(props.match.params.id, {
                 name: values.name,
@@ -29,9 +37,9 @@ function Edit(props) {
                 .catch(message.warning("修改失败，接口暂不支持"))
             console.log('Success:', values);
 
-        }else{
+        } else {
             // 新增数据
-            createApi( {
+            createApi({
                 name: values.name,
                 price: values.price
             }).then(r => {
@@ -55,16 +63,24 @@ function Edit(props) {
         },
         onChange(info) {
             if (info.file.status !== 'uploading') {
-                message.error("请根据实际地地址配置上传路径").then(r => {})
+                message.error("请根据实际地地址配置上传路径").then(r => {
+                })
                 console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`).then(r => {});
+                message.success(`${info.file.name} file uploaded successfully`).then(r => {
+                });
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`).then(r => {});
+                message.error(`${info.file.name} file upload failed.`).then(r => {
+                });
             }
         },
     };
+
+    //富文本
+    const handleEditorChange = (editorState) => {
+        setEditState(editorState)
+    }
     return (
         <Card title="商品编辑">
             <Form
@@ -83,8 +99,14 @@ function Edit(props) {
                 </Form.Item>
                 <Form.Item label="图片上传">
                     <Upload {...uploadProps}>
-                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                        <Button icon={<UploadOutlined/>}>Click to Upload</Button>
                     </Upload>
+                </Form.Item>
+                <Form.Item label="商品详情">
+                    <BraftEditor
+                        value={editState}
+                        onChange={handleEditorChange}
+                    />
                 </Form.Item>
                 <Form.Item>
                     <Button type='primary' htmlType="submit">保存</Button>
